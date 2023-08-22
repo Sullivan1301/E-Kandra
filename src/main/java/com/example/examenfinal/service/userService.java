@@ -1,21 +1,20 @@
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import com.example.examenfinal.entity.User;
+import com.example.examenfinal.repository.UserDAO;
 
 @Service
-public class userService {
-   private userDAO dao;
+public class UserService {
+    private UserDAO dao;
 
-   public userService(userDAO dao){
-       System.out.println("Appel du constructeur de service");
-       this.dao = dao;
-   }
+    public UserService(UserDAO dao) {
+        System.out.println("Appel du constructeur de service");
+        this.dao = dao;
+    }
 
-   public List<user> getAllUsers() throws SQLException {
-       return dao.getAll();
-   }
+    public List<User> getAllUsers() throws SQLException {
+        return dao.getAll();
+    }
 }
