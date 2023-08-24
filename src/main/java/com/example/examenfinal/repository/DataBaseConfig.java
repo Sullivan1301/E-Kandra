@@ -19,7 +19,7 @@ public class DataBaseConfig {
     @Bean
     public Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
-                "jdbc:postgresql://localhost/user_spring",
+                "jdbc:postgresql://localhost/e-kandra",
                 username,
                 password
         );

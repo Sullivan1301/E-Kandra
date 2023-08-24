@@ -1,4 +1,3 @@
-// User.java
 package com.example.examenfinal.entity;
 
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.ToString;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class User {
+public class user {
     private int id;
     private String user_name;
     private String user_firstname;
@@ -20,6 +19,5 @@ public class User {
     private String password;
     private String mobile;
     private String skills;
-
 
 }

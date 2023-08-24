@@ -1,20 +1,36 @@
+package com.example.examenfinal.service;
+
 import java.sql.SQLException;
 import java.util.List;
 
+import com.example.examenfinal.repository.UserDAOInterface;
 import org.springframework.stereotype.Service;
-import com.example.examenfinal.entity.User;
-import com.example.examenfinal.repository.UserDAO;
+import com.example.examenfinal.entity.user;
+import com.example.examenfinal.repository.userDAO;
 
 @Service
-public class UserService {
-    private UserDAO dao;
+public class userService{
 
-    public UserService(UserDAO dao) {
-        System.out.println("Appel du constructeur de service");
-        this.dao = dao;
+    public userService(UserDAOInterface userDAO){
     }
 
-    public List<User> getAllUsers() throws SQLException {
-        return dao.getAll();
+    public static user createUser(user User){
+        return userDAO.insert(User);
+    }
+
+    public static List<user> getAllUser() throws SQLException{
+        return userDAO.getAll();
+    }
+
+    public static user getUserByID(int id){
+        return userDAO.getById(id);
+    }
+
+    public static void updateUser(user User){
+        userDAO.update(User);
+    }
+
+    public static void deleteUser(int id){
+        userDAO.delete(id);
     }
 }

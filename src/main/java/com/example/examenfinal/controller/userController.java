@@ -1,22 +1,43 @@
+package com.example.examenfinal.controller;
+
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.examenfinal.entity.User;
-import com.example.examenfinal.service.UserService;
+import com.example.examenfinal.service.userService;
+import org.springframework.web.bind.annotation.*;
+import com.example.examenfinal.entity.user;
+import com.example.examenfinal.service.userService;
 
 @RestController
-public class UserController {
-    private UserService service;
+@RequestMapping("/users")
+public class userController {
+    private userService UserService;
 
-    public UserController(UserService service) {
-        System.out.println("Appel du contrôleur");
-        this.service = service;
+    public userController(userService UserService) {
     }
 
-    @GetMapping("/users")
-    public List<User> getAllUsers() throws SQLException {
-        return service.getAllUsers();
+    @PostMapping("/create")
+    public user createUser(@RequestBody user user) {
+        return userService.createUser(user);
+    }
+
+    @GetMapping("/all")
+    public List<user> getAllUser() throws SQLException {
+        return userService.getAllUser();
+    }
+
+    @GetMapping("/{userId}")
+    public user getUserById(@PathVariable int userId) {
+        return userService.getUserByID(userId);
+    }
+
+    @PutMapping("/update")
+    public void updateUser(@RequestBody user User) {
+        userService.updateUser(User);
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public void deleteUser(@PathVariable int userId) {
+        userService.deleteUser(userId);
     }
 }
