@@ -6,7 +6,6 @@ import java.util.List;
 import com.example.examenfinal.repository.OfferDAOInterface;
 import org.springframework.stereotype.Service;
 import com.example.examenfinal.entity.Offer;
-import com.example.examenfinal.repository.OfferDAO;
 
 @Service
 public class OfferService {

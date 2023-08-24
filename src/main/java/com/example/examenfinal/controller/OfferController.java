@@ -9,21 +9,36 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
+@RequestMapping("/offers")
 public class OfferController {
-    private OfferService service;
+    private OfferService offerService;
 
     public OfferController(OfferService service) {
-        this.service = service;
+        this.offerService =  offerService;
     }
 
-    @GetMapping("/offers")
+    @GetMapping
     public List<Offer> getAllOffers() throws SQLException {
-        try {
-            return service.getAllOffers();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+        return offerService.getAllOffers();
     }
 
-    // Ajoutez les autres méthodes pour créer, mettre à jour, supprimer des offres
+    @GetMapping("/{id}")
+    public Offer getOfferById(@PathVariable int id){
+        return offerService.getOfferById(id);
+    }
+
+    @PostMapping
+    public Offer createOffer(@RequestBody Offer offer){
+        return offerService.createOffer(offer);
+    }
+
+    @PutMapping("/{if}")
+    public void updateOffer(@PathVariable int id, @RequestBody Offer offer) {
+        offerService.updateOffer(offer);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteOffer(@PathVariable int id, @RequestBody Offer offer){
+        offerService.deleteOffer(id);
+    }
 }
