@@ -19,5 +19,5 @@ public class Offer {
     private double salary;
     private String city;
     private boolean remote;
-    private int domainId; // Ajout de la référence au domaine
+    private int domainId;
 }

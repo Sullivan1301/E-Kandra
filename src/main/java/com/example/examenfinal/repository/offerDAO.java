@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import com.example.examenfinal.entity.Offer;
 
 @Repository
-public class OfferDAO implements OfferDAOInterface {
+public class offerDAO implements OfferDAOInterface {
     private Connection connection;
 
-    public OfferDAO(Connection connection) {
+    public offerDAO(Connection connection) {
         this.connection = connection;
     }
 
@@ -26,6 +26,7 @@ public class OfferDAO implements OfferDAOInterface {
     @Override
     public List<Offer> getAll() throws SQLException {
         // Implémentation de la récupération de toutes les offres
+        return null;
     }
 
     @Override
