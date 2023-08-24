@@ -8,7 +8,8 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Domain {
+
+public class Category {
     private int id;
     private String name;
 }
