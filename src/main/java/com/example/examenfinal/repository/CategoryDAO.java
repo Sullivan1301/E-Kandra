@@ -43,7 +43,7 @@ public class CategoryDAO implements CategoryDAOInterface{
 
             while (result.next()){
                 Category category = convertToCategory(result);
-                allCategories.add(Category);
+                allCategories.add(category);
             }
         }catch (SQLException e){
             e.printStackTrace();
