@@ -12,12 +12,11 @@ public class userDAO implements UserDAOInterface {
     private static Connection connection;
 
     public userDAO(Connection connection) {
-        System.out.println("Constructeur du repository exécuté par Spring");
-        userDAO.connection = connection;
+        this.connection = connection;
     }
 
     @Override
-    public static user insert(user User) {
+    public user insert(user User) {
         String sql = "INSERT INTO \"user\"(user_name; user_firstname, email, password, mobile, skills) VALUES(\"Sullivan\",\"RAKOTONIAINA\",\"hei.sullivan.2@gmail.com\",\"password\",\"0341060802\",\"Students in Data Scientism\")";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -28,14 +27,10 @@ public class userDAO implements UserDAOInterface {
             preparedStatement.setString(5, User.getMobile());
             preparedStatement.setString(6, User.getSkills());
 
-            int rowsAffected = preparedStatement.executeUpdate();
-            if (rowsAffected > 0) {
-                try (ResultSet genereratedKeys = preparedStatement.getGeneratedKeys()) {
-                    if (genereratedKeys.next()) {
-                        User.setId(genereratedKeys.getInt(1));
-                        return User;
-                    }
-                }
+           ResultSet resultSet = preparedStatement.executeQuery();
+           if (resultSet.next()){
+               User.setId(resultSet.getInt("id"));
+               return User;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -43,7 +38,7 @@ public class userDAO implements UserDAOInterface {
         return null;
     }
         @Override
-        public static List<user> getAll () throws SQLException {
+        public List<user> getAll () throws SQLException {
             List<user> allUsers = new ArrayList<>();
             String sql = "SELECT * FROM \"user\"";
 
@@ -54,59 +49,69 @@ public class userDAO implements UserDAOInterface {
                     user User = convertToUser(result);
                     allUsers.add(User);
                 }
+            }catch (SQLException e){
+                e.printStackTrace();
             }
             return allUsers;
         }
 
-    private static user convertToUser(ResultSet result) {
-        return null;
-    }
-
-    @Override
-        public user getById ( int id){
-           String sql = "SELECT * FROM \"user\" WHERE id = 1";
-
-           try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-               preparedStatement.setInt(1, id);
-               ResultSet result = preparedStatement.executeQuery();
-
-               if (result.next()){
-                   return convertToUser(result);
-               }
-           } catch (SQLException e) {
-               e.printStackTrace();
-
-        }
-            return null;
-        }
-
-
-        @Override
-        public static void update (user User){
-        String sql = "UPDATE \"user\" SET user_name = ?, user_first_name = ?, email = ?, password = ?, mobile = ?, skills = ? WHERE id = ?";
+   @Override
+   public user getById(int id){
+        String sql = "SELECT * FROM \"user\" WHERE id = ?";
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-            preparedStatement.setInt(1,User.getId());
-            preparedStatement.setString(2, User.getUser_name());
-            preparedStatement.setString(3, User.getUser_firstname());
-            preparedStatement.setString(4, User.getEmail());
-            preparedStatement.setString(5, User.getPassword());
-            preparedStatement.setString(6, User.getMobile());
-            preparedStatement.setString(7, User.getSkills());
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+            preparedStatement.setInt(1,id);
+            ResultSet result = preparedStatement.executeQuery();
+
+            if (result.next()){
+                return convertToUser(result);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
         }
+        return null;
+   }
+
+        @Override
+        public  void update (user User) {
+            String sql = "UPDATE \"user\" SET user_name = ?, user_first_name = ?, email = ?, password = ?, mobile = ?, skills = ? WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, User.getId());
+                preparedStatement.setString(2, User.getUser_name());
+                preparedStatement.setString(3, User.getUser_firstname());
+                preparedStatement.setString(4, User.getEmail());
+                preparedStatement.setString(5, User.getPassword());
+                preparedStatement.setString(6, User.getMobile());
+                preparedStatement.setString(7, User.getSkills());
+
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
-        public static void delete ( int id){
+        public  void delete ( int id) {
+            String sql = "DELETE FROM \"user\" WHERE id = ?";
 
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                preparedStatement.setInt(1, id);
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
-        private static void convertToList (List < user > allUsers, ResultSet result) throws SQLException {
-            allUsers.add(new user(
-                    result.getInt("id_user"), result.getString("username"), result.getString("first_name"),
-                    result.getString("last_name"), result.getString("email"), result.getString("password"),
-                    result.getString("skills")));
+        private user convertToUser (ResultSet result) throws SQLException {
+            return new user(
+                    result.getInt("id"),
+                    result.getString("user_name"),
+                    result.getString("user_firstname"),
+                    result.getString("email"),
+                    result.getString("password"),
+                    result.getString("mobile"),
+                    result.getString("skills")
+            );
         }
     }
