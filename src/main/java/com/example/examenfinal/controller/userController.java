@@ -14,11 +14,12 @@ public class userController {
     private userService UserService;
 
     public userController(userService UserService) {
+        this.UserService = UserService;
     }
 
     @PostMapping("/create")
-    public user createUser(@RequestBody user user) {
-        return userService.createUser(user);
+    public user createUser(@RequestBody user User) {
+        return userService.createUser(User);
     }
 
     @GetMapping("/all")
@@ -26,18 +27,18 @@ public class userController {
         return userService.getAllUser();
     }
 
-    @GetMapping("/{userId}")
-    public user getUserById(@PathVariable int userId) {
-        return userService.getUserByID(userId);
+    @GetMapping("/{id}")
+    public user getUserById(@PathVariable int id) {
+        return userService.getUserByID(id);
     }
 
-    @PutMapping("/update")
-    public void updateUser(@RequestBody user User) {
+    @PutMapping("/id")
+    public void updateUser(@PathVariable int id, @RequestBody user User) {
         userService.updateUser(User);
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public void deleteUser(@PathVariable int userId) {
-        userService.deleteUser(userId);
+    @DeleteMapping("/id")
+    public void deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
     }
 }
