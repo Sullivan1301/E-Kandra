@@ -11,26 +11,29 @@ import com.example.examenfinal.repository.userDAO;
 @Service
 public class userService{
 
-    public userService(UserDAOInterface userDAO){
+    private static UserDAOInterface dao;
+
+    public userService(UserDAOInterface dao){
+        this.dao = dao;
     }
 
     public static user createUser(user User){
-        return userDAO.insert(User);
+        return dao.insert(User);
     }
 
     public static List<user> getAllUser() throws SQLException{
-        return userDAO.getAll();
+        return dao.getAll();
     }
 
     public static user getUserByID(int id){
-        return userDAO.getById(id);
+        return dao.getById(id);
     }
 
     public static void updateUser(user User){
-        userDAO.update(User);
+        dao.update(User);
     }
 
     public static void deleteUser(int id){
-        userDAO.delete(id);
+        dao.delete(id);
     }
 }
