@@ -1,6 +1,5 @@
 package com.example.examenfinal.controller;
 
-//Pour les opérations CRUD sur les offres
 import org.springframework.web.bind.annotation.*;
 import com.example.examenfinal.entity.Offer;
 import com.example.examenfinal.service.OfferService;

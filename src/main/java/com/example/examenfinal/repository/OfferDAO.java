@@ -156,8 +156,7 @@ public class OfferDAO implements OfferDAOInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error fetching domains", e);
-        }
+                    }
         return allDomains;
     }
 
@@ -174,7 +173,6 @@ public class OfferDAO implements OfferDAOInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error fetching categories", e);
         }
         return allCategories;
     }
@@ -193,7 +191,6 @@ public class OfferDAO implements OfferDAOInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error fetching domains for offer", e);
         }
         return domainsForOffer;
     }
@@ -212,8 +209,7 @@ public class OfferDAO implements OfferDAOInterface {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error fetching categories for offer", e);
-        }
+                    }
         return categoriesForOffer;
     }
     private Domain convertToDomain(ResultSet result) throws SQLException{
