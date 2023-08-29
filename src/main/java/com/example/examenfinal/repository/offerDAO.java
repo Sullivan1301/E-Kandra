@@ -9,6 +9,8 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import com.example.examenfinal.entity.Offer;
 
+import static sun.net.InetAddressCachePolicy.get;
+
 @Repository
 public class offerDAO implements OfferDAOInterface {
     private Connection connection;
@@ -18,24 +20,56 @@ public class offerDAO implements OfferDAOInterface {
     }
 
     @Override
-    public Offer insert(Offer toInsert) {
-        // Implémentation de l'insertion d'une offre
+    public Offer insert(Offer offer) {
+        String sql = "INSERT INTO offers (titre, description, entreprise, salary, city, remote, offer_domain)" +  "VALUES (?,?,?,?,?,?,?) RETURNING id";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, offer.getTitre());
+            preparedStatement.setString(2, offer.getDescription());
+            preparedStatement.setString(3, offer.getEntreprise());
+            preparedStatement.setBigDecimal(4, offer.getSalary());
+            preparedStatement.setString(5, offer.getCity());
+            preparedStatement.setBoolean(6,offer.isRemote());
+            preparedStatement.setInt(7, offer.getDomainId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()){
+                offer.setId(resultSet.getInt("id"));
+                return offer;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
     @Override
     public List<Offer> getAll() throws SQLException {
-        // Implémentation de la récupération de toutes les offres
-        return null;
+        List<Offer> allOffers = new ArrayList<>();
+        String sql = "SELECT * FROM offers";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                Offer offer = convertToOffer(result);
+                all
+            }
+        }
     }
 
     @Override
     public Offer getById(int id) {
-        // Implémentation pour obtenir une offre par son identifiant
         return null;
     }
 
-    private void convertToList(List<Offer> allOffers, ResultSet result) throws SQLException {
-        // Convertir le résultat en liste d'offres
+    @Override
+    public void update(Offer offer) {
+
+    }
+
+    @Override
+    public void delete(int id) {
+
     }
 }

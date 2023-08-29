@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @Getter
 @Setter
@@ -16,7 +18,7 @@ public class Offer {
     private String titre;
     private String description;
     private String entreprise;
-    private double salary;
+    private BigDecimal salary;
     private String city;
     private boolean remote;
     private int domainId;
