@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.examenfinal.entity.Offer;
 import com.example.examenfinal.entity.Domain;
+import com.example.examenfinal.entity.Category;
 @Repository
 public class OfferDAO implements OfferDAOInterface {
     private Connection connection;
@@ -142,10 +143,89 @@ public class OfferDAO implements OfferDAOInterface {
         return null;
     }
 
+    public List<Domain> getAllDomains() {
+        List<Domain> allDomains = new ArrayList<>();
+        String sql = "SELECT * FROM domain";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Domain domain = convertToDomain(resultSet);
+                allDomains.add(domain);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching domains", e);
+        }
+        return allDomains;
+    }
+
+    public List<Category> getAllCategories() {
+        List<Category> allCategories = new ArrayList<>();
+        String sql = "SELECT * FROM category";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Category category = convertToCategory(resultSet);
+                allCategories.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching categories", e);
+        }
+        return allCategories;
+    }
+
+    public List<Domain> getDomainsForOffer(int offerId) {
+        List<Domain> domainsForOffer = new ArrayList<>();
+        String sql = "SELECT * FROM domain WHERE id IN (SELECT offer_domain FROM offers WHERE id = ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, offerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Domain domain = convertToDomain(resultSet);
+                domainsForOffer.add(domain);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching domains for offer", e);
+        }
+        return domainsForOffer;
+    }
+
+    public List<Category> getCategoriesForOffer(int offerId) {
+        List<Category> categoriesForOffer = new ArrayList<>();
+        String sql = "SELECT * FROM category WHERE id IN (SELECT offer_category FROM offers WHERE id = ?)";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, offerId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Category category = convertToCategory(resultSet);
+                categoriesForOffer.add(category);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error fetching categories for offer", e);
+        }
+        return categoriesForOffer;
+    }
     private Domain convertToDomain(ResultSet result) throws SQLException{
         int domainId = result.getInt("id");
         String domainName = result.getString("name");
 
         return new Domain(domainId, domainName);
+    }
+    private Category convertToCategory(ResultSet result) throws SQLException {
+        int categoryId = result.getInt("id");
+        String categoryName = result.getString("name");
+
+        return new Category(categoryId, categoryName);
     }
 }
