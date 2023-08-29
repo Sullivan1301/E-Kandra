@@ -53,13 +53,28 @@ public class offerDAO implements OfferDAOInterface {
 
             while (resultSet.next()){
                 Offer offer = convertToOffer(result);
-                all
+                allOffers.add(offer);
             }
+        }catch (SQLException e){
+            e.printStackTrace();
+            throw e;
         }
+        return allOffers;
     }
 
     @Override
     public Offer getById(int id) {
+        String sql = "SELECT * FROM offers WHERE ID = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            ResultSet result = preparedStatement.executeQuery();
+
+            if(result.next()){
+                return converToOffer(result);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
