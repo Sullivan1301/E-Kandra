@@ -1,665 +1,401 @@
-openapi: '3.0.2'
+openapi: 3.0.2
 info:
-  title: Job finder
-  description: Un API pour chercher du travail en ligne
-  version: '1'
+  title: E-Kandra API
+  description: API for job search platform
+  version: 1.0.0
 servers:
-  - url: http://localhost:8080
+  - url: http://localhost:8080  # Replace with your server URL
 tags:
-  - name: job
-    description: to manipule job
+  - name: offer
+    description: Operations related to job offers
   - name: user
-    description: to manipule user
-  - name: type_user
-    description: to manipule type_user
-  - name: apply_job
-    description: to manipule apply_job
-  - name: company
-    description: to manipule company
-  - name: not CRUD
-    description: endpoint that not a CRUD
+    description: Operations related to users
+  - name: domain
+    description: Operations related to job domains
+  - name: category
+    description: Operations related to job categories
 paths:
-  /jobs:
+  /offers:
     get:
       tags:
-        - job
+        - offer
+      summary: Get a list of job offers
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
+              example:
+                - id: 1
+                  title: Software Engineer
+                  company: E-Tech
+                  description: Exciting software engineering role
+                  location: Anosivavaka Antananarivo
     post:
       tags:
-        - job
+        - offer
+      summary: Create a new job offer
       requestBody:
+        required: true
         content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/jobs'
+          application/json:
+            example:
+              title: Data Scientist
+              company: Novity
+              description: Exciting Data Scientism role
+              location: Ivandry Antananarivo
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Offer created successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
-    patch:
-      tags:
-        - job
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/jobs'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
-    delete:
-      tags:
-        - job
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  format: int64
-                  example: 1
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
-  /jobs/:
+              example:
+                id: 2
+                title: Data Scientist
+                company: Novity
+                description: Exciting Data Scientism role
+                location: Ivandry Antananarivo
+  /offers/{id}:
     get:
       tags:
-        - job
+        - offer
+      summary: Get details of a specific job offer
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-            example: 10
+          example: 1
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
-  /jobs/name:
-    get:
+              example:
+                id: 1
+                title: Software Engineer
+                company: E-Tech
+                description: Exciting software engineering role
+                location: Anosivavaka Antananarivo
+    put:
       tags:
-        - job
-      parameters:
-        - name: name
-          in: query
-          schema:
-            type: string
-            example: axel
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/jobs'
-        '500':
-          description: Internal server error
-  /company:
-    get:
-      tags:
-        - company
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-  /company_jobs/count_job:
-    get:
-      tags:
-        - company
-        - job
-        - not CRUD
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-    post:
-      tags:
-        - company
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/company'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-    patch:
-      tags:
-        - company
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/company'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-    delete:
-      tags:
-        - company
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  format: int64
-                  example: 1
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-  /company/:
-    get:
-      tags:
-        - company
+        - offer
+      summary: Update a specific job offer
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-            example: 10
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-  /company/name:
-    get:
-      tags:
-        - company
-      parameters:
-        - name: name
-          in: query
-          schema:
-            type: string
-            example: axel
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/company'
-        '500':
-          description: Internal server error
-  /type_user:
-    get:
-      tags:
-        - type_user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/type_user'
-        '500':
-          description: Internal server error
-    post:
-      tags:
-        - type_user
+          example: 1
       requestBody:
+        required: true
         content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/type_user'
+          application/json:
+            example:
+              title: Senior Software Engineer
+              company: Pulse
+              description: Exciting senior software engineering role
+              location: Andranomena Antananrivo
       responses:
         '200':
-          description: OK
+          description: Offer updated successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/type_user'
-        '500':
-          description: Internal server error
-    patch:
-      tags:
-        - type_user
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/type_user'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/type_user'
-        '500':
-          description: Internal server error
+              example:
+                id: 1
+                title: Senior Software Engineer
+                company: Pulse
+                description: Exciting senior software engineering role
+                location: Andranomena Antananarivo
     delete:
       tags:
-        - type_user
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  format: int64
-                  example: 1
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/type_user'
-        '500':
-          description: Internal server error
-  /type_user/:
-    get:
-      tags:
-        - type_user
+        - offer
+      summary: Delete a specific job offer
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-            example: 10
+          example: 1
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/type_user'
-        '500':
-          description: Internal server error
-  /apply_job:
+        '204':
+          description: Offer deleted successfully
+  /users:
     get:
       tags:
-        - apply_job
+        - user
+      summary: Get a list of users
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/apply_job'
-        '500':
-          description: Internal server error
+              example:
+                - id: 1
+                  name: Joro Sullivan
+                  age: 21
     post:
       tags:
-        - apply_job
+        - user
+      summary: Create a new user
       requestBody:
+        required: true
         content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/apply_job'
+          application/json:
+            example:
+              name: Rojosoa Nayah
+              age: 18
       responses:
-        '200':
-          description: OK
+        '201':
+          description: User created successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/apply_job'
-        '500':
-          description: Internal server error
-    patch:
-      tags:
-        - apply_job
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/apply_job'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/apply_job'
-        '500':
-          description: Internal server error
-    delete:
-      tags:
-        - apply_job
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  format: int64
-                  example: 1
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/apply_job'
-        '500':
-          description: Internal server error
-  /apply_job/:
+              example:
+                id: 2
+                name: Rojosoa Nayah
+                age: 18
+  /users/{id}:
     get:
       tags:
-        - apply_job
+        - user
+      summary: Get details of a specific user
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-            example: 10
+          example: 1
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/apply_job'
-        '500':
-          description: Internal server error
-  /user:
-    get:
+              example:
+                id: 1
+                name: Joro Sullivan
+                age: 21
+    put:
       tags:
         - user
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-    post:
-      tags:
-        - user
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/user'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-    patch:
-      tags:
-        - user
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              $ref: '#/components/schemas/user'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-    delete:
-      tags:
-        - user
-      requestBody:
-        content:
-          'application/x-www-form-urlencoded':
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  format: int64
-                  example: 1
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-  /user/:
-    get:
-      tags:
-        - user
+      summary: Update a specific user
       parameters:
         - name: id
           in: path
           required: true
           schema:
             type: integer
-            example: 10
+          example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Rojosoa Nayah
+              age: 18
       responses:
         '200':
-          description: OK
+          description: User updated successfully
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-  /user/name:
-    get:
+              example:
+                id: 1
+                name: Rojosoa Nayah
+                age: 18
+    delete:
       tags:
         - user
-        - not CRUD
+      summary: Delete a specific user
       parameters:
-        - name: name
-          in: query
+        - name: id
+          in: path
+          required: true
           schema:
-            type: string
-            example: axel
+            type: integer
+          example: 1
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/user'
-        '500':
-          description: Internal server error
-  /company_jobs:
+        '204':
+          description: User deleted successfully
+  /domains:
     get:
       tags:
-        - job
-        - company
+        - domain
+      summary: Get a list of job domains
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/company_jobs'
-        '500':
-          description: Internal server error
-  /company_jobs/name:
+              example:
+                - id: 1
+                  name: Software Development
+    post:
+      tags:
+        - domain
+      summary: Create a new job domain
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Data Analyst
+      responses:
+        '201':
+          description: Domain created successfully
+          content:
+            application/json:
+              example:
+                id: 2
+                name: Data Analyst
+  /domains/{id}:
     get:
       tags:
-        - job
-        - company
-        - not CRUD
+        - domain
+      summary: Get details of a specific job domain
       parameters:
-        - name: name
-          in: query
+        - name: id
+          in: path
+          required: true
           schema:
-            type: string
-            example: axel
+            type: integer
+          example: 1
       responses:
         '200':
-          description: OK
+          description: Successful response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/company_jobs'
-        '500':
-          description: Internal server error
-
-components:
-  schemas:
-    jobs:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
+              example:
+                id: 1
+                name: Software Development
+    put:
+      tags:
+        - domain
+      summary: Update a specific job domain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
           example: 1
-        name:
-          type: string
-          example: enseigant
-        description:
-          type: string
-          example: jouer le role d un enseignant
-    company:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Web Development
+      responses:
+        '200':
+          description: Domain updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Web Development
+    delete:
+      tags:
+        - domain
+      summary: Delete a specific job domain
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
           example: 1
-        name:
-          type: string
-          example: hei
-        description:
-          type: string
-          example: la haute ecole en informatique
-    type_user:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
+      responses:
+        '204':
+          description: Domain deleted successfully
+  /categories:
+    get:
+      tags:
+        - category
+      summary: Get a list of job categories
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                - id: 1
+                  name: Full-Time
+    post:
+      tags:
+        - category
+      summary: Create a new job category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Part-Time
+      responses:
+        '201':
+          description: Category created successfully
+          content:
+            application/json:
+              example:
+                id: 2
+                name: Part-Time
+  /categories/{id}:
+    get:
+      tags:
+        - category
+      summary: Get details of a specific job category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
           example: 1
-        name:
-          type: string
-          example: noob
-        description:
-          type: string
-          example: un debutant
-    user:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Full-Time
+    put:
+      tags:
+        - category
+      summary: Update a specific job category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
           example: 1
-        name:
-          type: string
-          example: axel
-        age:
-          type: integer
-          example: 18
-        description:
-          type: string
-          example: un debutant
-        id_type_user:
-          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            example:
+              name: Freelance
+      responses:
+        '200':
+          description: Category updated successfully
+          content:
+            application/json:
+              example:
+                id: 1
+                name: Freelance
+    delete:
+      tags:
+        - category
+      summary: Delete a specific job category
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
           example: 1
-    apply_job:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          example: 1
-        id_user:
-          type: integer
-          format: int64
-          example: 2
-        id_job:
-          type: integer
-          format: int64
-          example: 3
-    company_jobs:
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/company'
-        job:
-          $ref: '#/components/schemas/jobs'
-    company_jobs_count:
-      type: object
-      properties:
-        company:
-          $ref: '#/components/schemas/company'
-        quantity:
-          type: integer
-          example: 10
+      responses:
+        '204':
+          description: Category deleted successfully
