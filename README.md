@@ -25,7 +25,7 @@ E-Kandra API is a Spring Boot application that provides endpoints to manage job 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/E-Kandra.git
+   git clone https://github.com/Sullivan1301/E-Kandra.git
    cd E-Kandra
 
     Configure the database:
