@@ -4,7 +4,7 @@ info:
   description: API for job search platform
   version: 1.0.0
 servers:
-  - url: http://localhost:8080  # Replace with your server URL
+  - url: http://localhost:8080
 tags:
   - name: offer
     description: Operations related to job offers
