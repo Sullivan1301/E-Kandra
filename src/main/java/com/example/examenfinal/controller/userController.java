@@ -6,7 +6,6 @@ import java.util.List;
 import com.example.examenfinal.service.userService;
 import org.springframework.web.bind.annotation.*;
 import com.example.examenfinal.entity.user;
-import com.example.examenfinal.service.userService;
 
 @RestController
 @RequestMapping("/users")
@@ -17,27 +16,27 @@ public class userController {
         this.UserService = UserService;
     }
 
-    @PostMapping("/create")
-    public user createUser(@RequestBody user User) {
-        return userService.createUser(User);
-    }
-
-    @GetMapping("/all")
+    @GetMapping("/{all}")
     public List<user> getAllUser() throws SQLException {
         return userService.getAllUser();
     }
 
     @GetMapping("/{id}")
-    public user getUserById(@PathVariable int id) {
-        return userService.getUserByID(id);
+    public user getUserById(@PathVariable int id){
+        return userService.getUserById(id);
     }
 
-    @PutMapping("/id")
+    @PostMapping
+    public user createUser(@RequestBody user User){
+        return userService.createUser(User);
+    }
+
+    @PutMapping("/{id}")
     public void updateUser(@PathVariable int id, @RequestBody user User) {
         userService.updateUser(User);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
     }

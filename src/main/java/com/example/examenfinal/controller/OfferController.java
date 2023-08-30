@@ -12,7 +12,7 @@ import java.util.List;
 public class OfferController {
     private OfferService offerService;
 
-    public OfferController(OfferService service) {
+    public OfferController(OfferService offerService) {
         this.offerService =  offerService;
     }
 
@@ -31,13 +31,13 @@ public class OfferController {
         return offerService.createOffer(offer);
     }
 
-    @PutMapping("/{if}")
+    @PutMapping("/{id}")
     public void updateOffer(@PathVariable int id, @RequestBody Offer offer) {
         offerService.updateOffer(offer);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteOffer(@PathVariable int id, @RequestBody Offer offer){
+    public void deleteOffer(@PathVariable int id){
         offerService.deleteOffer(id);
     }
 }

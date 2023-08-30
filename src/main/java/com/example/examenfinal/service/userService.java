@@ -3,6 +3,7 @@ package com.example.examenfinal.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.example.examenfinal.entity.Offer;
 import com.example.examenfinal.repository.UserDAOInterface;
 import org.springframework.stereotype.Service;
 import com.example.examenfinal.entity.user;
@@ -25,7 +26,7 @@ public class userService{
         return dao.getAll();
     }
 
-    public static user getUserByID(int id){
+    public static user getUserById(int id){
         return dao.getById(id);
     }
 
